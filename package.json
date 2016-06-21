@@ -1,0 +1,21 @@
+{
+  "name": "urban-airship-cli",
+  "version": "0.0.0",
+  "description": "Command line interface for push notifications.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "urban",
+    "airship",
+    "notification",
+    "push"
+  ],
+  "author": "Arthur Zettler <arthur.zettler@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^2.9.0",
+    "request": "^2.72.0"
+  }
+}
