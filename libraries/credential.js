@@ -1,8 +1,10 @@
+var program = require('commander');
+
 function encodeCredential (credential) {
 	return new Buffer(credential).toString('base64');
 }
 
-function loadCredential (program) {
+function loadCredential () {
 	var secret = null;
 	var key = null;
 	var credential = null;
