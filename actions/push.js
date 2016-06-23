@@ -2,6 +2,7 @@ var program = require('commander');
 var request = require('request');
 
 var credentialLib = require('../libraries/credential');
+var requestHandler = require('../handlers/request');
 
 function createPushData (message, credential) {
 	var requestPushData = {
@@ -24,12 +25,6 @@ function createPushData (message, credential) {
 	return requestPushData;
 }
 
-function requestPushHandler (error, request, body) {
-	if (error) return console.log('Error: ', error);
-
-	console.log('Notification sent:', body);
-}
-
 
 function pushAction (message) {
 	var credential = null;
@@ -41,7 +36,7 @@ function pushAction (message) {
 		credential = credentialLib.load(program);
 		requestPushData = createPushData(message, credential);
 
-		request(requestPushData, requestPushHandler);
+		request(requestPushData, requestHandler);
 	} catch (error) {
 		console.log(error);
 	}

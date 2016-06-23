@@ -2,6 +2,7 @@ var program = require('commander');
 var request = require('request');
 
 var credentialLib = require('../libraries/credential');
+var requestHandler = require('../handlers/request');
 
 function createPushData (message, url, credential) {
 	var requestPushData = {
@@ -32,12 +33,6 @@ function createPushData (message, url, credential) {
 	return requestPushData;
 }
 
-function requestPushHandler (error, request, body) {
-	if (error) return console.log('Error: ', error);
-
-	console.log('Notification sent:', body);
-}
-
 function pushUrlAction (message, url) {
 	var credential = null;
 	var requestPushData = null;
@@ -48,7 +43,7 @@ function pushUrlAction (message, url) {
 		credential = credentialLib.load(program);
 		requestPushData = createPushData(message, url, credential);
 
-		request(requestPushData, requestPushHandler);
+		request(requestPushData, requestHandler);
 	} catch (error) {
 		console.log(error);
 	}
