@@ -1,6 +1,8 @@
 var notificationService = require('../services/notification');
 var credentialLib = require('../libraries/credential');
 
+var instruction = 'push <message>';
+var description = 'send push notification to all application devices';
 
 function actionHandler (error, request, body) {
 	if (error) return console.log('Error: ', error);
@@ -8,23 +10,15 @@ function actionHandler (error, request, body) {
 	console.log('Notification sent:', body);
 }
 
-function pushUrlAction (message, url) {
+function pushAction (message) {
 	var credential = credentialLib.load();
 	var payload = {
 		'audience': 'all',
 		'device_types': 'all',
-		'notification': {
-			'alert': message,
-			'actions': {
-				'open': {
-					'type': 'url',
-					'content': url,
-				},
-			},
-		},
+		'notification': {'alert': message},
 	};
 
-	console.log('Notifing you app with url action:', message, url);
+	console.log('Notifing you app with message:', message);
 
 	try {
 		notificationService.send(payload, credential, actionHandler);
@@ -33,4 +27,9 @@ function pushUrlAction (message, url) {
 	}
 }
 
-module.exports = pushUrlAction;
+module.exports = {
+	action: pushAction,
+	instruction: instruction,
+	description: description,
+};
+	
