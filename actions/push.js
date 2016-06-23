@@ -1,27 +1,7 @@
 var program = require('commander');
 var request = require('request');
 
-function encodeCredential (credential) {
-	return new Buffer(credential).toString('base64');
-}
-
-function loadCredential (program) {
-	var secret = null;
-	var key = null;
-	var credential = null;
-
-	if (program.secret) secret = program.secret;
-	else if (process.env.URBAN_AIRSHIP_MASTER_SECRET) secret = process.env.URBAN_AIRSHIP_MASTER_SECRET;
-	else throw new Error('application master key not defined');
-
-	if (program.key) key = program.key;
-	else if (process.env.URBAN_AIRSHIP_KEY) key = process.env.URBAN_AIRSHIP_KEY;
-	else throw new Error('application key not defined');
-
-	credential = key + ':' + secret;
-
-	return credential;
-}
+var credentialLib = require('../libraries/credential');
 
 function createPushData (message, credential) {
 	var requestPushData = {
@@ -35,7 +15,7 @@ function createPushData (message, credential) {
 		},
 
 		headers: {
-			'Authorization': 'Basic ' + encodeCredential(credential),
+			'Authorization': 'Basic ' + credentialLib.encode(credential),
 			'Accept': 'application/vnd.urbanairship+json; version=3;',
 			'Content-Type': 'application/json',
 		},
@@ -58,7 +38,7 @@ function pushAction (message) {
 	console.log('Notifing you app with message:', message);
 
 	try {
-		credential = loadCredential(program);
+		credential = credentialLib.load(program);
 		requestPushData = createPushData(message, credential);
 
 		request(requestPushData, requestPushHandler);
