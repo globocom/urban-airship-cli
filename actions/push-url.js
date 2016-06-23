@@ -2,36 +2,7 @@ var program = require('commander');
 var request = require('request');
 
 var credentialLib = require('../libraries/credential');
-var requestHandler = require('../handlers/request');
-
-function createPushData (message, url, credential) {
-	var requestPushData = {
-		method: 'POST',
-		url: 'https://go.urbanairship.com/api/push/',
-		
-		json: {
-			'audience': 'all',
-			'notification': {
-				'alert': message,
-				'actions': {
-					'open': {
-						'type': 'url',
-						'content': url,
-					},
-				},
-			},
-			'device_types': 'all',
-		},
-
-		headers: {
-			'Authorization': 'Basic ' + credentialLib.encode(credential),
-			'Accept': 'application/vnd.urbanairship+json; version=3;',
-			'Content-Type': 'application/json',
-		},
-	}
-
-	return requestPushData;
-}
+var notification = require('../services/notification');
 
 function pushUrlAction (message, url) {
 	var credential = null;
@@ -41,9 +12,9 @@ function pushUrlAction (message, url) {
 
 	try {
 		credential = credentialLib.load(program);
-		requestPushData = createPushData(message, url, credential);
+		requestPushData = notification.createRequest(message, url, credential);
 
-		request(requestPushData, requestHandler);
+		request(requestPushData, notification.handleRequest);
 	} catch (error) {
 		console.log(error);
 	}
