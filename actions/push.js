@@ -1,20 +1,25 @@
-var program = require('commander');
-var request = require('request');
-
+var notificationService = require('../services/notification');
 var credentialLib = require('../libraries/credential');
-var notification = require('../services/notification');
+
+
+function actionHandler (error, request, body) {
+	if (error) return console.log('Error: ', error);
+
+	console.log('Notification sent:', body);
+}
 
 function pushAction (message) {
-	var credential = null;
-	var requestPushData = null;
+	var credential = credentialLib.load();
+	var payload = {
+		'audience': 'all',
+		'device_types': 'all',
+		'notification': {'alert': message},
+	};
 
 	console.log('Notifing you app with message:', message);
 
 	try {
-		credential = credentialLib.load(program);
-		requestPushData = notification.createRequest(message, null, credential);
-
-		request(requestPushData, notification.handleRequest);
+		notificationService.send(payload, credential, actionHandler);
 	} catch (error) {
 		console.log(error);
 	}
