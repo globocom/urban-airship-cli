@@ -1,10 +1,13 @@
 {
   "name": "urban-airship-cli",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Command line interface for push notifications.",
-  "main": "./bin/urban-airship-cli",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "urban-airship-cli": "main.js"
   },
   "keywords": [
     "urban",

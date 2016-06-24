@@ -1,8 +1,12 @@
 var program = require('commander');
+var arguments = process.argv;
 
-var commands = [require('./commands/push'), 
-				require('./commands/push-url')];
+var broadcastCommand = require('./commands/broadcast');
+var actionUrlCommand = require('./commands/action-url');
 
+
+var commands = [broadcastCommand,
+				actionUrlCommand];
 
 commands.forEach(function (command) {
 	program
@@ -14,5 +18,13 @@ commands.forEach(function (command) {
 program
 	.option('-s, --secret <n>', 'application master secret from urban airship')
 	.option('-k, --key <n>', 'application key from urban airship');
+
+if (require.main === module) {
+	var argumentsCount = arguments.slice(2).length;
+
+	if (!argumentsCount) program.outputHelp();
+
+	return program.parse(arguments);
+}
 
 module.exports = program;
