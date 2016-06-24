@@ -1,8 +1,8 @@
 var program = require('commander');
-var request = require('request');
 
 var commands = [require('./commands/push'), 
 				require('./commands/push-url')];
+
 
 commands.forEach(function (command) {
 	program
@@ -13,5 +13,6 @@ commands.forEach(function (command) {
 
 program
 	.option('-s, --secret <n>', 'application master secret from urban airship')
-	.option('-k, --key <n>', 'application key from urban airship')
-	.parse(process.argv);
+	.option('-k, --key <n>', 'application key from urban airship');
+
+module.exports = program;

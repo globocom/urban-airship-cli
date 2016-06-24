@@ -2,7 +2,7 @@
   "name": "urban-airship-cli",
   "version": "0.0.0",
   "description": "Command line interface for push notifications.",
-  "main": "index.js",
+  "main": "./bin/urban-airship-cli",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

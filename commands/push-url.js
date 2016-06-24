@@ -4,7 +4,8 @@ var credentialLib = require('../libraries/credential');
 var instruction = 'push-url <message> <url>';
 var description = 'send notification action to open a url';
 
-function actionHandler (error, request, body) {
+
+function _actionHandler (error, request, body) {
 	if (error) return console.log('Error: ', error);
 
 	console.log('Notification sent:', body);
@@ -29,7 +30,7 @@ function pushUrlAction (message, url) {
 	console.log('Notifing you app with url action:', message, url);
 
 	try {
-		notificationService.send(payload, credential, actionHandler);
+		notificationService.send(payload, credential, _actionHandler);
 	} catch (error) {
 		console.log(error);
 	}
