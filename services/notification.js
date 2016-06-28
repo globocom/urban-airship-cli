@@ -1,15 +1,21 @@
 var request = require('request');
+
 var credentialLib = require('../libraries/credential');
 
-function send (payload, credential, callback) {
-	var requestPushData = createRequest(payload, credential);
 
-	request(requestPushData, callback);
+function send (payload, key, secret, callback) {
+	var requestPushData = null;
+	var credential = credentialLib.create(key, secret) || credentialLib.loadFromEnv();
+	
+	if (!credential) throw new Error('No credential found!');
+
+	requestPushData = createRequest(payload, credential);
+
+	request.post(requestPushData, callback);
 }
 
 function createRequest (payload, credential) {
 	var requestPushData = {
-		method: 'POST',
 		url: 'https://go.urbanairship.com/api/push/',
 		json: payload,
 		headers: {

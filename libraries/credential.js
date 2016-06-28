@@ -1,28 +1,27 @@
-var program = require('commander');
-
 function encodeCredential (credential) {
 	return new Buffer(credential).toString('base64');
 }
 
-function loadCredential () {
-	var secret = null;
-	var key = null;
+function createCredential (key, secret) {
 	var credential = null;
 
-	if (program.secret) secret = program.secret;
-	else if (process.env.URBAN_AIRSHIP_MASTER_SECRET) secret = process.env.URBAN_AIRSHIP_MASTER_SECRET;
-	else throw new Error('application master key not defined');
+	if (key && secret) credential = key + ':' + secret;
 
-	if (program.key) key = program.key;
-	else if (process.env.URBAN_AIRSHIP_KEY) key = process.env.URBAN_AIRSHIP_KEY;
-	else throw new Error('application key not defined');
+	return credential;
+}
 
-	credential = key + ':' + secret;
+function loadCredentialFromEnv () {
+	var credential = null;
+	var key = process.env.URBAN_AIRSHIP_KEY;
+	var secret = process.env.URBAN_AIRSHIP_MASTER_SECRET;
+	
+	if (key && secret) credential = key + ':' + secret;
 
 	return credential;
 }
 
 module.exports = {
 	encode: encodeCredential,
-	load: loadCredential,
+	loadFromEnv: loadCredentialFromEnv,
+	create: createCredential,
 };

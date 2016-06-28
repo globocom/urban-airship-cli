@@ -1,5 +1,4 @@
 var notificationService = require('../services/notification');
-var credentialLib = require('../libraries/credential');
 
 var instruction = 'broadcast <message>';
 var description = 'send push notification to all application devices';
@@ -8,21 +7,21 @@ var description = 'send push notification to all application devices';
 function _actionHandler (error, request, body) {
 	if (error) return console.log('Error: ', error);
 
-	console.log('Notification sent:', body);
+	console.log('Broadcast sent:', body);
 }
 
-function broadcast (message) {
-	var credential = credentialLib.load();
+function broadcast (message, options) {
+	var key = options.parent && options.parent.key;
+	var secret = options.parent && options.parent.secret;
+
 	var payload = {
 		'audience': 'all',
 		'device_types': 'all',
 		'notification': {'alert': message},
 	};
 
-	console.log('Notifing you app with message:', message);
-
 	try {
-		notificationService.send(payload, credential, _actionHandler);
+		notificationService.send(payload, key, secret, _actionHandler);
 	} catch (error) {
 		console.log(error);
 	}

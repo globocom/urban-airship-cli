@@ -4,7 +4,7 @@
   "description": "Command line interface for push notifications.",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/mocha/bin/mocha ./tests/**"
   },
   "bin": {
     "urban-airship-cli": "main.js"
@@ -20,5 +20,10 @@
   "dependencies": {
     "commander": "^2.9.0",
     "request": "^2.72.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3",
+    "sinon": "^1.17.4"
   }
 }

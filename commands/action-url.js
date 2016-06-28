@@ -1,5 +1,4 @@
 var notificationService = require('../services/notification');
-var credentialLib = require('../libraries/credential');
 
 var instruction = 'action-url <message> <url>';
 var description = 'send notification action to open a url';
@@ -8,11 +7,13 @@ var description = 'send notification action to open a url';
 function _actionHandler (error, request, body) {
 	if (error) return console.log('Error: ', error);
 
-	console.log('Notification sent:', body);
+	console.log('Url action sent:', body);
 }
 
-function urlAction (message, url) {
-	var credential = credentialLib.load();
+function urlAction (message, url, options) {
+	var key = options.parent && options.parent.key;
+	var secret = options.parent && options.parent.secret;
+
 	var payload = {
 		'audience': 'all',
 		'device_types': 'all',
@@ -27,10 +28,8 @@ function urlAction (message, url) {
 		},
 	};
 
-	console.log('Notifing you app with url action:', message, url);
-
 	try {
-		notificationService.send(payload, credential, _actionHandler);
+		notificationService.send(payload, key, secret, _actionHandler);
 	} catch (error) {
 		console.log(error);
 	}
