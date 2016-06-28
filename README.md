@@ -12,6 +12,7 @@ To use this tool you have to pass the application key an master secret by option
 `usage: [options] [command]`
 
 #### Commands:
+<<<<<<< HEAD
 - `broadcast <message> [segment]`: ***send push notification to all application devices***
 	- **message** : push notification message
 	- **segment** (optional) : segment id from urban airship to send notification for a group
@@ -19,6 +20,10 @@ To use this tool you have to pass the application key an master secret by option
 	- **message** : push notification message
 	- **url** : url to be opened 
 	- **segment** (optional) : segment id from urban airship to send notification for a group
+=======
+- `broadcast <message>`         ***send push notification to all application devices***
+- `action-url <message> <url>`  ***send notification action to open a url***
+>>>>>>> bf6bcc9... docs: add readme file; resolve #7
 
 #### Options:
 - `-h`, `--help`        output usage information
