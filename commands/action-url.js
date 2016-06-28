@@ -1,6 +1,6 @@
 var notificationService = require('../services/notification');
 
-var instruction = 'action-url <message> <url>';
+var instruction = 'action-url <message> <url> [segment]';
 var description = 'send notification action to open a url';
 
 
@@ -10,12 +10,12 @@ function _actionHandler (error, request, body) {
 	console.log('Url action sent:', body);
 }
 
-function urlAction (message, url, options) {
+function urlAction (message, url, segment, options) {
 	var key = options.parent && options.parent.key;
 	var secret = options.parent && options.parent.secret;
 
 	var payload = {
-		'audience': 'all',
+		'audience': segment && {'segment': segment} || 'all',
 		'device_types': 'all',
 		'notification': {
 			'alert': message,
