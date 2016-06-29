@@ -42,7 +42,7 @@ describe('commands/action-url', function () {
 				},
 			};		
 		
-			actionUrlCommand.action('abc', 'url', {});
+			actionUrlCommand.action('abc', 'url', null, {});
 
 			payload = notificationSend.getCall(0).args[0];
 
@@ -58,12 +58,45 @@ describe('commands/action-url', function () {
 			notificationSend.restore();
 		});
 
+		it('should create a url action notification with segment', function () {
+			var payload = null;
+			var notificationSend = sinon.stub(notificationService, 'send');
+			var expectedPayload = {
+				'audience': { 'segment': 'segment-id' },
+				'device_types': 'all',
+				'notification': {
+					'alert': 'abc',
+					'actions': {
+						'open': {
+							'type': 'url',
+							'content': 'url',
+						},
+					},
+				},
+			};		
+		
+			actionUrlCommand.action('abc', 'url', 'segment-id', {});
+
+			payload = notificationSend.getCall(0).args[0];
+
+
+			assert.equal(payload.audience.segment, expectedPayload.audience.segment);
+			assert.equal(payload.device_types, expectedPayload.device_types);
+			assert.equal(payload.notification.alert, expectedPayload.notification.alert);
+			assert.equal(payload.notification.actions.open.type,
+						 expectedPayload.notification.actions.open.type);
+			assert.equal(payload.notification.actions.open.content,
+						 expectedPayload.notification.actions.open.content);
+			
+			notificationSend.restore();
+		});
+
 		it('should not define key and secret if no options was passed', function () {
 			var key = null;
 			var secret = null;
 			var notificationSend = sinon.stub(notificationService, 'send');
 		
-			actionUrlCommand.action('abc', 'url', {});
+			actionUrlCommand.action('abc', 'url', null, {});
 
 			key = notificationSend.getCall(0).args[1];
 			secret = notificationSend.getCall(0).args[2];
@@ -88,7 +121,7 @@ describe('commands/action-url', function () {
 				} 
 			}
 
-			actionUrlCommand.action('abc', 'url', options);
+			actionUrlCommand.action('abc', 'url', null, options);
 
 			key = notificationSend.getCall(0).args[1];
 			secret = notificationSend.getCall(0).args[2];

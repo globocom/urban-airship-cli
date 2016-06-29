@@ -34,7 +34,7 @@ describe('commands/broadcast', function () {
 				'notification': {'alert': 'abc'},
 			};		
 		
-			broadcastCommand.action('abc', {});
+			broadcastCommand.action('abc', null, {});
 
 			payload = notificationSend.getCall(0).args[0];
 
@@ -45,11 +45,31 @@ describe('commands/broadcast', function () {
 			notificationSend.restore();
 		});
 
+		it('should create a broadcast notification with segment', function () {
+			var payload = null;
+			var notificationSend = sinon.stub(notificationService, 'send');
+			var expectedPayload = {
+				'audience': { 'segment': 'segment-id' },
+				'device_types': 'all',
+				'notification': {'alert': 'abc'},
+			};		
+		
+			broadcastCommand.action('abc', 'segment-id', {});
+
+			payload = notificationSend.getCall(0).args[0];
+
+			assert.equal(payload.audience.segment, expectedPayload.audience.segment);
+			assert.equal(payload.device_types, expectedPayload.device_types);
+			assert.equal(payload.notification.alert, expectedPayload.notification.alert);
+			
+			notificationSend.restore();
+		});
+
 		it('should define action handler', function () {
 			var callbackHandler = null;
 			var notificationSend = sinon.stub(notificationService, 'send');
 		
-			broadcastCommand.action('abc', {});
+			broadcastCommand.action('abc', null, {});
 
 			callbackHandler = notificationSend.getCall(0).args[3];
 
@@ -63,7 +83,7 @@ describe('commands/broadcast', function () {
 			var secret = null;
 			var notificationSend = sinon.stub(notificationService, 'send');
 		
-			broadcastCommand.action('abc', {});
+			broadcastCommand.action('abc', null, {});
 
 			key = notificationSend.getCall(0).args[1];
 			secret = notificationSend.getCall(0).args[2];
@@ -89,7 +109,7 @@ describe('commands/broadcast', function () {
 				} 
 			}
 
-			broadcastCommand.action('abc', options);
+			broadcastCommand.action('abc', null, options);
 
 			key = notificationSend.getCall(0).args[1];
 			secret = notificationSend.getCall(0).args[2];
