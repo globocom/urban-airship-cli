@@ -1,6 +1,6 @@
 var notificationService = require('../services/notification');
 
-var instruction = 'broadcast <message> [segment]';
+var instruction = 'broadcast <message> [segment] [platforms...]';
 var description = 'send push notification to all application devices';
 
 
@@ -10,13 +10,14 @@ function _actionHandler (error, request, body) {
 	console.log('Broadcast sent:', body);
 }
 
-function broadcast (message, segment, options) {
+function broadcast (message, segment, platforms, options) {
 	var key = options.parent && options.parent.key;
 	var secret = options.parent && options.parent.secret;
+	console.log(platforms)
 
 	var payload = {
 		'audience': segment && {'segment': segment} || 'all',
-		'device_types': 'all',
+		'device_types': platforms.length && platforms || ['ios', 'android'],
 		'notification': {'alert': message},
 	};
 
