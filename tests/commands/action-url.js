@@ -30,7 +30,7 @@ describe('commands/action-url', function () {
 			var notificationSend = sinon.stub(notificationService, 'send');
 			var expectedPayload = {
 				'audience': 'all',
-				'device_types': 'all',
+				'device_types': ['ios', 'android'],
 				'notification': {
 					'alert': 'abc',
 					'actions': {
@@ -42,13 +42,13 @@ describe('commands/action-url', function () {
 				},
 			};		
 		
-			actionUrlCommand.action('abc', 'url', null, {});
+			actionUrlCommand.action('abc', 'url', null, [], {});
 
 			payload = notificationSend.getCall(0).args[0];
 
 
 			assert.equal(payload.audience, expectedPayload.audience);
-			assert.equal(payload.device_types, expectedPayload.device_types);
+			assert.deepEqual(payload.device_types, expectedPayload.device_types);
 			assert.equal(payload.notification.alert, expectedPayload.notification.alert);
 			assert.equal(payload.notification.actions.open.type,
 						 expectedPayload.notification.actions.open.type);
@@ -63,7 +63,7 @@ describe('commands/action-url', function () {
 			var notificationSend = sinon.stub(notificationService, 'send');
 			var expectedPayload = {
 				'audience': { 'segment': 'segment-id' },
-				'device_types': 'all',
+				'device_types': ['ios', 'android'],
 				'notification': {
 					'alert': 'abc',
 					'actions': {
@@ -75,13 +75,46 @@ describe('commands/action-url', function () {
 				},
 			};		
 		
-			actionUrlCommand.action('abc', 'url', 'segment-id', {});
+			actionUrlCommand.action('abc', 'url', 'segment-id', [], {});
 
 			payload = notificationSend.getCall(0).args[0];
 
 
 			assert.equal(payload.audience.segment, expectedPayload.audience.segment);
-			assert.equal(payload.device_types, expectedPayload.device_types);
+			assert.deepEqual(payload.device_types, expectedPayload.device_types);
+			assert.equal(payload.notification.alert, expectedPayload.notification.alert);
+			assert.equal(payload.notification.actions.open.type,
+						 expectedPayload.notification.actions.open.type);
+			assert.equal(payload.notification.actions.open.content,
+						 expectedPayload.notification.actions.open.content);
+			
+			notificationSend.restore();
+		});
+
+		it('should create a url action notification to target platform', function () {
+			var payload = null;
+			var notificationSend = sinon.stub(notificationService, 'send');
+			var expectedPayload = {
+				'audience': 'all',
+				'device_types': ['android'],
+				'notification': {
+					'alert': 'abc',
+					'actions': {
+						'open': {
+							'type': 'url',
+							'content': 'url',
+						},
+					},
+				},
+			};		
+		
+			actionUrlCommand.action('abc', 'url', null, ['android'], {});
+
+			payload = notificationSend.getCall(0).args[0];
+
+
+			assert.equal(payload.audience, expectedPayload.audience);
+			assert.deepEqual(payload.device_types, expectedPayload.device_types);
 			assert.equal(payload.notification.alert, expectedPayload.notification.alert);
 			assert.equal(payload.notification.actions.open.type,
 						 expectedPayload.notification.actions.open.type);
@@ -96,7 +129,7 @@ describe('commands/action-url', function () {
 			var secret = null;
 			var notificationSend = sinon.stub(notificationService, 'send');
 		
-			actionUrlCommand.action('abc', 'url', null, {});
+			actionUrlCommand.action('abc', 'url', null, [], {});
 
 			key = notificationSend.getCall(0).args[1];
 			secret = notificationSend.getCall(0).args[2];
@@ -121,7 +154,7 @@ describe('commands/action-url', function () {
 				} 
 			}
 
-			actionUrlCommand.action('abc', 'url', null, options);
+			actionUrlCommand.action('abc', 'url', null, [], options);
 
 			key = notificationSend.getCall(0).args[1];
 			secret = notificationSend.getCall(0).args[2];
