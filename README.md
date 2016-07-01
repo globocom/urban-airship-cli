@@ -7,21 +7,24 @@ Available on npm:
 `npm install urban-airship-cli --global`
 
 #### Usage:
-To use this tool you have to pass the application key an master secret by options or use two environment variables **URBAN_AIRSHIP_KEY** and **URBAN_AIRSHIP_MASTER_SECRET**.
+To use this tool you have to pass the application key an master secret by options or use two environment variables **URBAN_AIRSHIP_KEY** and **URBAN_AIRSHIP_MASTER_SECRET**. Available platforms to send notification: ios, android, amazon, wns, mpns and blackberry.
 
 `usage: [options] [command]`
 
 #### Commands:
-- `broadcast <message> [segment]`: ***send push notification to all application devices***
+- `broadcast <message> [segment] [platforms...]`: ***send push notification to all application devices***
 	- **message** : push notification message
 	- **segment** (optional) : segment id from urban airship to send notification for a group
-- `action-url <message> <url> [segment]`:  ***send notification action to open a url***
+	- **platforms** (optional) : specify platforms to send notification. Default is ios and android
+- `action-url <message> <url> [segment] [platforms...]`:  ***send notification action to open a url***
 	- **message** : push notification message
 	- **url** : url to be opened 
 	- **segment** (optional) : segment id from urban airship to send notification for a group
+	- **platforms** (optional) : specify platforms to send notification. Default is ios and android
 
 #### Options:
 - `-h`, `--help`        output usage information
+- `-V`, `--version`     output the version number
 - `-s <value>`, `--secret <value>`  application master secret from urban airship
 - `-k <value>`, `--key <value>`     application key from urban airship
 
