@@ -13,7 +13,6 @@ function _actionHandler (error, request, body) {
 function broadcast (message, segment, platforms, options) {
 	var key = options.parent && options.parent.key;
 	var secret = options.parent && options.parent.secret;
-	console.log(platforms)
 
 	var payload = {
 		'audience': segment && {'segment': segment} || 'all',

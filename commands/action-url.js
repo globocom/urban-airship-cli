@@ -15,7 +15,7 @@ function urlAction (message, url, segment, platforms, options) {
 	var secret = options.parent && options.parent.secret;
 
 	var payload = {
-		'audience': segment && {'segment': segment} || 'all',
+		'audience': segment && {'segment': 'segment-id'} || 'all',
 		'device_types': platforms.length && platforms || ['ios', 'android'],
 		'notification': {
 			'alert': message,
