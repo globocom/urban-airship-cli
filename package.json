@@ -1,6 +1,6 @@
 {
   "name": "urban-airship-cli",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "Command line interface for push notifications.",
   "main": "main.js",
   "scripts": {
