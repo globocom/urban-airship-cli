@@ -1,5 +1,4 @@
 var assert = require('chai').assert;
-var expect = require('chai').expect;
 var sinon = require('sinon');
 var request = require('request');
 
@@ -13,7 +12,7 @@ describe('services/notification', function () {
 		var expectedAuthorization = 'Basic YWJjOjEyMw==';
 
 		it('should throw error if no credential found', function () {
-			expect(notificationService.send).to.throw('No credential found!');
+			assert.throw(notificationService.send, 'No credential found!');
 		});
 
 		it('should use options credential key and secret', function () {

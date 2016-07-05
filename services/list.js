@@ -4,17 +4,17 @@ var credentialLib = require('../libraries/credential');
 var services = require('../services');
 
 
-function send (payload, key, secret, callback) {
-	var requestPushData = null;
+function get (type, key, secret, callback) {
+	var requestListData = null;
 	var credential = credentialLib.create(key, secret) || credentialLib.loadFromEnv();
 	
 	if (!credential) throw new Error('No credential found!');
 
-	requestPushData = services.createRequest('push', payload, credential);
+	requestListData = services.createRequest(type, null, credential);
 
-	request.post(requestPushData, callback);
+	request.get(requestListData, callback);
 }
 
 module.exports = {
-	send: send,
+	get: get,
 };
