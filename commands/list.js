@@ -9,6 +9,13 @@ var LIST_TYPES = {
 		
 		console.log('Channels:', responseJSON);
 	},
+	segments: function _segmentActionHandler (error, response, body) {
+		if (error) return console.log('Error: ', error);
+
+		var responseJSON = JSON.parse(body);
+		
+		console.log('Segments:', responseJSON);
+	},
 };
 
 function _getListTypeHandler (type) {
