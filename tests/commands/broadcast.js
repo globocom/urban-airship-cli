@@ -34,7 +34,7 @@ describe('commands/broadcast', function () {
 				'notification': {'alert': 'abc'},
 			};		
 		
-			broadcastCommand.action('abc', null, [], {});
+			broadcastCommand.action('abc', {});
 
 			payload = notificationSend.getCall(0).args[0];
 
@@ -52,9 +52,10 @@ describe('commands/broadcast', function () {
 				'audience': { 'segment': 'segment-id' },
 				'device_types': ['ios', 'android'],
 				'notification': {'alert': 'abc'},
-			};		
+			};
+			var options = { audience: 'segment=segment-id' };
 		
-			broadcastCommand.action('abc', 'segment-id', [], {});
+			broadcastCommand.action('abc', options);
 
 			payload = notificationSend.getCall(0).args[0];
 
@@ -72,9 +73,10 @@ describe('commands/broadcast', function () {
 				'audience': 'all',
 				'device_types': ['ios'],
 				'notification': {'alert': 'abc'},
-			};		
+			};
+			var options = { platforms: 'ios' };
 		
-			broadcastCommand.action('abc', null, ['ios'], {});
+			broadcastCommand.action('abc', options);
 
 			payload = notificationSend.getCall(0).args[0];
 
@@ -89,7 +91,7 @@ describe('commands/broadcast', function () {
 			var callbackHandler = null;
 			var notificationSend = sinon.stub(notificationService, 'send');
 		
-			broadcastCommand.action('abc', null, [], {});
+			broadcastCommand.action('abc', {});
 
 			callbackHandler = notificationSend.getCall(0).args[3];
 
@@ -103,7 +105,7 @@ describe('commands/broadcast', function () {
 			var secret = null;
 			var notificationSend = sinon.stub(notificationService, 'send');
 		
-			broadcastCommand.action('abc', null, [], {});
+			broadcastCommand.action('abc', {});
 
 			key = notificationSend.getCall(0).args[1];
 			secret = notificationSend.getCall(0).args[2];
@@ -129,7 +131,7 @@ describe('commands/broadcast', function () {
 				} 
 			}
 
-			broadcastCommand.action('abc', null, [], options);
+			broadcastCommand.action('abc', options);
 
 			key = notificationSend.getCall(0).args[1];
 			secret = notificationSend.getCall(0).args[2];

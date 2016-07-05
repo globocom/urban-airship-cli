@@ -5,22 +5,26 @@ var arguments = process.argv;
 
 var broadcastCommand = require('./commands/broadcast');
 var actionUrlCommand = require('./commands/action-url');
+
 var package = require('./package');
 
-var commands = [broadcastCommand,
-				actionUrlCommand];
 
-commands.forEach(function (command) {
-	program
-		.command(command.instruction)
-		.description(command.description)
-		.action(command.action);
-});
+var commands = [broadcastCommand, actionUrlCommand];
 
 program
 	.version(package.version)
 	.option('-s, --secret <n>', 'application master secret from urban airship')
 	.option('-k, --key <n>', 'application key from urban airship');
+
+commands.forEach(function (command) {
+	var _program = program.command(command.instruction)
+		   		   .description(command.description)
+		           .action(command.action);
+
+	command.options.forEach(function (option) {
+		_program.option(option.instruction, option.description);
+	});
+});
 
 if (require.main === module) {
 	var argumentsCount = arguments.slice(2).length;
