@@ -5,11 +5,12 @@ var arguments = process.argv;
 
 var broadcastCommand = require('./commands/broadcast');
 var actionUrlCommand = require('./commands/action-url');
+var listCommand = require('./commands/list');
 
 var package = require('./package');
 
 
-var commands = [broadcastCommand, actionUrlCommand];
+var commands = [broadcastCommand, actionUrlCommand, listCommand];
 
 program
 	.version(package.version)

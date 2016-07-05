@@ -1,6 +1,6 @@
 ## Urban Airship CLI [![Build Status](https://travis-ci.org/arthursz/urban-airship-cli.svg?branch=master)](https://travis-ci.org/arthursz/urban-airship-cli)
 
-> It's a command line interface to send push notification using [Urban Airship API](https://www.urbanairship.com/).
+> It's a command line interface for [Urban Airship API](https://www.urbanairship.com/).
 
 #### Install:
 Available on npm:
@@ -16,6 +16,7 @@ To use this tool you have to pass the application key an master secret by option
 - `urban-arship-cli broadcast "Message" -P "<platform-name>, <platform-name>"`;
 - `urban-arship-cli broadcast "Message" -A "<segment=segment-id>"`;
 - `urban-arship-cli broadcast "Message" -P "<platform-name>" -A "segment=<segment-id>"`;
+- `urban-arship-cli list channels`;
 
 #### Commands:
 - `broadcast <message>`: ***send push notification to all application devices***
@@ -27,6 +28,8 @@ To use this tool you have to pass the application key an master secret by option
 	- **url** : url to be opened 
 	- **-A, --audience** (optional) - audience from urban airship to send notification, default: "all";
 	- **-P, --platforms** (optional) - specify platforms to send notification, default: "ios, android";
+- `list <type>`: ***list all application: channels***
+	- **type** : type of the list: channels
 
 #### Options:
 - `-h`, `--help`        output usage information
