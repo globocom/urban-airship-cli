@@ -11,16 +11,22 @@ To use this tool you have to pass the application key an master secret by option
 
 `usage: [options] [command]`
 
+#### Examples:
+- `urban-arship-cli broadcast "Message"`;
+- `urban-arship-cli broadcast "Message" -P "<platform-name>, <platform-name>"`;
+- `urban-arship-cli broadcast "Message" -A "<segment=segment-id>"`;
+- `urban-arship-cli broadcast "Message" -P "<platform-name>" -A "segment=<segment-id>"`;
+
 #### Commands:
-- `broadcast <message> [segment] [platforms...]`: ***send push notification to all application devices***
-	- **message** : push notification message
-	- **segment** (optional) : segment id from urban airship to send notification for a group
-	- **platforms** (optional) : specify platforms to send notification. Default is ios and android
-- `action-url <message> <url> [segment] [platforms...]`:  ***send notification action to open a url***
+- `broadcast <message>`: ***send push notification to all application devices***
+	- **message** : push notification message;
+	- **-A, --audience** (optional) - audience from urban airship to send notification, default: "all";
+	- **-P, --platforms** (optional) - specify platforms to send notification, default: "ios, android";
+- `action-url <message> <url>`:  ***send notification action to open a url***
 	- **message** : push notification message
 	- **url** : url to be opened 
-	- **segment** (optional) : segment id from urban airship to send notification for a group
-	- **platforms** (optional) : specify platforms to send notification. Default is ios and android
+	- **-A, --audience** (optional) - audience from urban airship to send notification, default: "all";
+	- **-P, --platforms** (optional) - specify platforms to send notification, default: "ios, android";
 
 #### Options:
 - `-h`, `--help`        output usage information

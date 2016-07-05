@@ -1,7 +1,6 @@
+var audienceLib = require('../libraries/audience');
+var platformLib = require('../libraries/platform');
 var notificationService = require('../services/notification');
-
-var instruction = 'action-url <message> <url> [segment] [platforms...]';
-var description = 'send notification action to open a url';
 
 
 function _actionHandler (error, request, body) {
@@ -10,13 +9,13 @@ function _actionHandler (error, request, body) {
 	console.log('Url action sent:', body);
 }
 
-function urlAction (message, url, segment, platforms, options) {
+function urlAction (message, url, options) {
 	var key = options.parent && options.parent.key;
 	var secret = options.parent && options.parent.secret;
 
 	var payload = {
-		'audience': segment && {'segment': 'segment-id'} || 'all',
-		'device_types': platforms.length && platforms || ['ios', 'android'],
+		'audience': audienceLib.load(options.audience),
+		'device_types': platformLib.load(options.platforms),
 		'notification': {
 			'alert': message,
 			'actions': {
@@ -37,6 +36,13 @@ function urlAction (message, url, segment, platforms, options) {
 
 module.exports = {
 	action: urlAction,
-	instruction: instruction,
-	description: description,
+	instruction: 'action-url <message> <url>',
+	description: 'send notification action to open a url',
+	options: [{
+		instruction: '-P, --platforms <platforms>',
+		description: 'platforms to send notification - ios, android, amazon, wns, mpns and blackberry'
+	},{
+		instruction: '-A, --audience <audience>',
+		description: 'audience to send notification'
+	}],
 };

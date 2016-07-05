@@ -1,22 +1,21 @@
+var audienceLib = require('../libraries/audience');
+var platformLib = require('../libraries/platform');
 var notificationService = require('../services/notification');
 
-var instruction = 'broadcast <message> [segment] [platforms...]';
-var description = 'send push notification to all application devices';
-
-
+ 
 function _actionHandler (error, request, body) {
 	if (error) return console.log('Error: ', error);
 
 	console.log('Broadcast sent:', body);
 }
 
-function broadcast (message, segment, platforms, options) {
+function broadcast (message, options) {
 	var key = options.parent && options.parent.key;
 	var secret = options.parent && options.parent.secret;
 
 	var payload = {
-		'audience': segment && {'segment': segment} || 'all',
-		'device_types': platforms.length && platforms || ['ios', 'android'],
+		'audience': audienceLib.load(options.audience),
+		'device_types': platformLib.load(options.platforms),
 		'notification': {'alert': message},
 	};
 
@@ -29,7 +28,14 @@ function broadcast (message, segment, platforms, options) {
 
 module.exports = {
 	action: broadcast,
-	instruction: instruction,
-	description: description,
+	instruction: 'broadcast <message>',
+	description: 'send push notification to all application devices',
+	options: [{
+		instruction: '-P, --platforms <platforms>',
+		description: 'platforms to send notification - ios, android, amazon, wns, mpns and blackberry'
+	},{
+		instruction: '-A, --audience <audience>',
+		description: 'audience to send notification'
+	}],
 };
 	

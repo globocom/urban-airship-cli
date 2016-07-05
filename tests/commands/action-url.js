@@ -41,8 +41,8 @@ describe('commands/action-url', function () {
 					},
 				},
 			};		
-		
-			actionUrlCommand.action('abc', 'url', null, [], {});
+
+			actionUrlCommand.action('abc', 'url', {});
 
 			payload = notificationSend.getCall(0).args[0];
 
@@ -73,9 +73,10 @@ describe('commands/action-url', function () {
 						},
 					},
 				},
-			};		
+			};	
+			var options = { audience: 'segment=segment-id' };
 		
-			actionUrlCommand.action('abc', 'url', 'segment-id', [], {});
+			actionUrlCommand.action('abc', 'url', options);
 
 			payload = notificationSend.getCall(0).args[0];
 
@@ -106,9 +107,10 @@ describe('commands/action-url', function () {
 						},
 					},
 				},
-			};		
+			};
+			var options = { platforms: 'android' };
 		
-			actionUrlCommand.action('abc', 'url', null, ['android'], {});
+			actionUrlCommand.action('abc', 'url', options);
 
 			payload = notificationSend.getCall(0).args[0];
 
@@ -129,7 +131,7 @@ describe('commands/action-url', function () {
 			var secret = null;
 			var notificationSend = sinon.stub(notificationService, 'send');
 		
-			actionUrlCommand.action('abc', 'url', null, [], {});
+			actionUrlCommand.action('abc', 'url', {});
 
 			key = notificationSend.getCall(0).args[1];
 			secret = notificationSend.getCall(0).args[2];
@@ -152,9 +154,9 @@ describe('commands/action-url', function () {
 					key: expectedKey, 
 					secret: expectedSecret 
 				} 
-			}
+			};
 
-			actionUrlCommand.action('abc', 'url', null, [], options);
+			actionUrlCommand.action('abc', 'url', options);
 
 			key = notificationSend.getCall(0).args[1];
 			secret = notificationSend.getCall(0).args[2];
