@@ -8,13 +8,36 @@ var arguments = process.argv;
 var package = require('./package');
 
 var stages = {
+	verifyBranch: {
+		action: function (data) {
+			var deferred = Q.defer();
+
+			exec('git branch', function (error, stdout, stderr) {
+				if (error) return deferred.reject({stage: stages.verifyBranch, data: data, message: error});
+				if (stdout.indexOf('* master') < 0) return deferred.reject({stage: stages.verifyBranch, data: data, message: 'You must be in master'});
+
+				deferred.resolve(data);
+			});
+
+			return deferred.promise;
+		},
+
+		onFailure: function (data) {
+			var deferred = Q.defer();
+			
+			deferred.resolve(data);
+
+			return deferred.promise;
+		},
+	},
+
 	pumpVersion: {
 		action: function (data) {
 			var deferred = Q.defer();
 			var packageRaw = JSON.stringify(package, null, 2); 
 
 			fs.writeFile('package.json', packageRaw.replace(data.oldVersion, data.newVersion), function (error) {
-				if (error) deferred.reject({stage: stages.pumpVersion, data: data, message: error});
+				if (error) return deferred.reject({stage: stages.pumpVersion, data: data, message: error});
 
 				console.log('version up:'.green, 'ok'.bold);
 				
@@ -43,7 +66,7 @@ var stages = {
 			var deferred = Q.defer();
 
 			exec('git commit -m "version: pump version to ' + data.newVersion + '" package.json', function (error, stdout, stderr) {
-				if (error) deferred.reject({stage: stages.commitVersion, data: data, message: error});
+				if (error) return deferred.reject({stage: stages.commitVersion, data: data, message: error});
 				
 				console.log('commit package:'.green, 'ok'.bold);
 				
@@ -66,13 +89,41 @@ var stages = {
 		},
 	},
 
+	pushVersion: {
+		action: function (data) {
+			var deferred = Q.defer();
+
+			exec('git push origin master', function (error, stdout, stderr) {
+				if (error) return deferred.reject({stage: stages.pushVersion, data: data, message: error});
+				
+				console.log('push package:'.green, 'ok'.bold);
+				
+				deferred.resolve(data);
+			});
+
+			return deferred.promise;	
+		},
+
+		onFailure: function (data) {
+			var deferred = Q.defer();
+
+			exec('git reset --hard HEAD@{1}', function (error, stdout, stderr) {
+				console.log('revert push:'.red, 'ok'.bold);
+				
+				deferred.resolve(data);
+			});
+
+			return deferred.promise;	
+		},
+	},
+
 	tagVersion: {
 		action: function (data) {
 			var deferred = Q.defer();
 			var tagVersion = 'v' + data.newVersion;
 
 			exec('git tag -m "' + tagVersion + '" ' + tagVersion, function (error, stdout, stderr) {
-				if (error) deferred.reject({stage: stages.tagVersion, data: data, message: error});
+				if (error) return deferred.reject({stage: stages.tagVersion, data: data, message: error});
 
 				console.log('tag:'.green, 'ok'.bold);
 
@@ -101,7 +152,7 @@ var stages = {
 			var deferred = Q.defer();
 
 			exec('git push origin --tags', function (error, stdout, stderr) {
-				if (error) deferred.reject({stage: stages.pushRelease, data: data, message: error});
+				if (error) return deferred.reject({stage: stages.pushRelease, data: data, message: error});
 
 				console.log('push:'.green, 'ok'.bold);
 
@@ -130,7 +181,7 @@ var stages = {
 			var deferred = Q.defer();
 
 			exec('npm publish', function (error, stdout, stderr) {
-				if (error) deferred.reject({stage: stages.publishVersion, data: data, message: error});
+				if (error) return deferred.reject({stage: stages.publishVersion, data: data, message: error});
 		
 				console.log('publish:'.green, 'ok'.bold);
 
@@ -158,38 +209,57 @@ function deployFailureHandler (error) {
 	if (!error) return console.log('deploy success!');
 
 	console.log('\nDeploy failed: reverting'.bold.red,
-				error.data.oldVersion,
-				'~>'.bold.red,
 				error.data.newVersion,
+				'~>'.bold.red,
+				error.data.oldVersion,
 				error.message,
 				'\n');
 
 	switch (error.stage) {
+		case stages.verifyBranch:
+				stages.verifyBranch.onFailure(error.data);
+			break;
+
 		case stages.pumpVersion:
-				stages.pumpVersion.onFailure(error.data);
+				stages.verifyBranch.onFailure(error.data)
+					.then(stages.pumpVersion.onFailure);
 			break;
 
 		case stages.commitVersion:
-				stages.pumpVersion.onFailure(error.data)
+				stages.verifyBranch.onFailure(error.data)
+					.then(stages.pumpVersion.onFailure)
 					.then(stages.commitVersion.onFailure);
+			break;
+
+		case stages.pushVersion:
+				stages.verifyBranch.onFailure(error.data)
+					.then(stages.pumpVersion.onFailure)
+					.then(stages.commitVersion.onFailure)
+					.then(stages.pushVersion.onFailure);
 			break;
 		
 		case stages.tagVersion:
-				stages.pumpVersion.onFailure(error.data)
+				stages.verifyBranch.onFailure(error.data)
+					.then(stages.pumpVersion.onFailure)
 					.then(stages.commitVersion.onFailure)
+					.then(stages.pushVersion.onFailure)
 					.then(stages.tagVersion.onFailure);
 			break;
 			
 		case stages.pushRelease:
-				stages.pumpVersion.onFailure(error.data)
+				stages.verifyBranch.onFailure(error.data)
+					.then(stages.pumpVersion.onFailure)
 					.then(stages.commitVersion.onFailure)
+					.then(stages.pushVersion.onFailure)
 					.then(stages.tagVersion.onFailure)
 					.then(stages.pushRelease.onFailure);
 			break;
 
 		case stages.publishVersion:
-				stages.pumpVersion.onFailure(error.data)
+				stages.verifyBranch.onFailure(error.data)
+					.then(stages.pumpVersion.onFailure)
 					.then(stages.commitVersion.onFailure)
+					.then(stages.pushVersion.onFailure)
 					.then(stages.tagVersion.onFailure)
 					.then(stages.pushRelease.onFailure)
 					.then(stages.publishVersion.onFailure);
@@ -227,8 +297,10 @@ program
 					data.newVersion,
 					'\n');
 
-		stages.pumpVersion.action(data)
+		stages.verifyBranch.action(data)
+			.then(stages.pumpVersion.action)
 			.then(stages.commitVersion.action)
+			.then(stages.pushVersion.action)
 			.then(stages.tagVersion.action)
 			.then(stages.pushRelease.action)
 			.then(stages.publishVersion.action)
