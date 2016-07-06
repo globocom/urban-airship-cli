@@ -35,6 +35,10 @@ function loadAudience (audience_source) {
 			return {'ios_channel': _validateAudienceValue(audience.value)};
 			break;
 
+		case 'named_user':
+			return {'named_user': _validateAudienceValue(audience.value)};
+			break;
+
 		case 'all':
 			return DEFAULT_AUDIENCE;
 			break;
