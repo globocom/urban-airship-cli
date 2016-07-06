@@ -28,8 +28,8 @@ To use this tool you have to pass the application key an master secret by option
 	- **url** : url to be opened 
 	- **-A, --audience** (optional) - audience from urban airship to send notification, default: "all";
 	- **-P, --platforms** (optional) - specify platforms to send notification, default: "ios, android";
-- `list <type>`: ***list all application: channels***
-	- **type** : type of the list: channels
+- `list <type>`: ***list all application: channels or segments***
+	- **type** : type of the list: channels or segments
 
 #### Options:
 - `-h`, `--help`        output usage information

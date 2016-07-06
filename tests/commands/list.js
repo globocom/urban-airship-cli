@@ -42,6 +42,23 @@ describe('commands/list', function () {
 			listGet.restore();
 		});
 
+		it('should create request to list segments correctly', function () {
+			var type = null;
+			var segmentsHandler = null
+			var expectedType = 'segments'
+			var listGet = sinon.stub(listService, 'get');
+
+			listCommand.action('segments', {});
+
+			type = listGet.getCall(0).args[0];
+			segmentsHandler = listGet.getCall(0).args[3];
+
+			assert.equal(type, expectedType);
+			assert.equal(segmentsHandler.name, '_segmentActionHandler');
+
+			listGet.restore();
+		});
+
 		it('should throw error if unsuported type passed', function () {
 			assert.throws(function () {
 				listCommand.action('unsuported', {});
