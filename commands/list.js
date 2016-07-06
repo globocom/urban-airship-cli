@@ -2,19 +2,28 @@ var listService = require('../services/list');
 
 
 var LIST_TYPES = {
-	channels: function _channelActionHandler (error, response, body) {
+	channels: function channelActionHandler (error, response, body) {
 		if (error) return console.log('Error: ', error);
 
 		var responseJSON = JSON.parse(body);
 		
 		console.log('Channels:', responseJSON);
 	},
-	segments: function _segmentActionHandler (error, response, body) {
+
+	segments: function segmentActionHandler (error, response, body) {
 		if (error) return console.log('Error: ', error);
 
 		var responseJSON = JSON.parse(body);
 		
 		console.log('Segments:', responseJSON);
+	},
+
+	named_users: function namedUsersActionHandler (error, response, body) {
+		if (error) return console.log('Error: ', error);
+
+		var responseJSON = JSON.parse(body);
+		
+		console.log('Named Users:', responseJSON);
 	},
 };
 

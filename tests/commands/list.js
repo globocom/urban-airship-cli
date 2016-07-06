@@ -37,7 +37,7 @@ describe('commands/list', function () {
 			channelsHandler = listGet.getCall(0).args[3];
 
 			assert.equal(type, expectedType);
-			assert.equal(channelsHandler.name, '_channelActionHandler');
+			assert.equal(channelsHandler.name, 'channelActionHandler');
 
 			listGet.restore();
 		});
@@ -54,7 +54,24 @@ describe('commands/list', function () {
 			segmentsHandler = listGet.getCall(0).args[3];
 
 			assert.equal(type, expectedType);
-			assert.equal(segmentsHandler.name, '_segmentActionHandler');
+			assert.equal(segmentsHandler.name, 'segmentActionHandler');
+
+			listGet.restore();
+		});
+
+		it('should create request to list named users correctly', function () {
+			var type = null;
+			var namedUsersHandler = null
+			var expectedType = 'named_users'
+			var listGet = sinon.stub(listService, 'get');
+
+			listCommand.action('named_users', {});
+
+			type = listGet.getCall(0).args[0];
+			namedUsersHandler = listGet.getCall(0).args[3];
+
+			assert.equal(type, expectedType);
+			assert.equal(namedUsersHandler.name, 'namedUsersActionHandler');
 
 			listGet.restore();
 		});

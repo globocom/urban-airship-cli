@@ -17,6 +17,8 @@ To use this tool you have to pass the application key an master secret by option
 - `urban-arship-cli broadcast "Message" -A "<segment=segment-id>"`;
 - `urban-arship-cli broadcast "Message" -P "<platform-name>" -A "segment=<segment-id>"`;
 - `urban-arship-cli list channels`;
+- `urban-arship-cli list segments`;
+- `urban-arship-cli list named_users`;
 
 #### Commands:
 - `broadcast <message>`: ***send push notification to all application devices***
@@ -28,8 +30,8 @@ To use this tool you have to pass the application key an master secret by option
 	- **url** : url to be opened 
 	- **-A, --audience** (optional) - audience from urban airship to send notification, default: "all";
 	- **-P, --platforms** (optional) - specify platforms to send notification, default: "ios, android";
-- `list <type>`: ***list all application: channels or segments***
-	- **type** : type of the list: channels or segments
+- `list <type>`: ***list all application: channels, segments or named_users***
+	- **type** : type of the list: channels, segments or named_users
 
 #### Options:
 - `-h`, `--help`        output usage information
