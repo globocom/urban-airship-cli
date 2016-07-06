@@ -1,4 +1,4 @@
-## Urban Airship CLI [![Build Status](https://travis-ci.org/arthursz/urban-airship-cli.svg?branch=master)](https://travis-ci.org/arthursz/urban-airship-cli)
+## Urban Airship CLI [![Build Status](https://travis-ci.org/globocom/urban-airship-cli.svg?branch=master)](https://travis-ci.org/arthursz/urban-airship-cli)
 
 > It's a command line interface for [Urban Airship API](https://www.urbanairship.com/).
 
