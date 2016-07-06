@@ -31,6 +31,12 @@ describe('libraries/audience', function () {
 			}, 'Invalid audience value: ');
 		});
 
+		it('should load default audience if no ios channel value passed', function () {
+			assert.throws(function () {
+				audienceLib.load('ios_channel=');
+			}, 'Invalid audience value: ');
+		});
+
 		it('should load audience with segment', function () {
 			var expectedAudience = { segment: 'segment-id' };
 			var audience = audienceLib.load('segment=segment-id');
@@ -41,6 +47,13 @@ describe('libraries/audience', function () {
 		it('should load audience with android channel', function () {
 			var expectedAudience = { android_channel: 'android-channel-id' };
 			var audience = audienceLib.load('android_channel=android-channel-id');
+
+			assert.deepEqual(audience, expectedAudience);
+		});
+
+		it('should load audience with ios channel', function () {
+			var expectedAudience = { ios_channel: 'ios-channel-id' };
+			var audience = audienceLib.load('ios_channel=ios-channel-id');
 
 			assert.deepEqual(audience, expectedAudience);
 		});

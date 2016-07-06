@@ -16,6 +16,7 @@ To use this tool you have to pass the application key an master secret by option
 - `urban-arship-cli broadcast "Message" -P "<platform-name>, <platform-name>"`;
 - `urban-arship-cli broadcast "Message" -A "<segment=segment-id>"`;
 - `urban-arship-cli broadcast "Message" -A "<android_channel=channel-id>"`;
+- `urban-arship-cli broadcast "Message" -A "<ios_channel=channel-id>"`;
 - `urban-arship-cli broadcast "Message" -P "<platform-name>" -A "segment=<segment-id>"`;
 - `urban-arship-cli list channels`;
 - `urban-arship-cli list segments`;
