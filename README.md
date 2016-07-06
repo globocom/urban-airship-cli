@@ -7,16 +7,17 @@ Available on npm:
 `npm install urban-airship-cli --global`
 
 #### Usage:
-To use this tool you have to pass the application key an master secret by options or use two environment variables **URBAN_AIRSHIP_KEY** and **URBAN_AIRSHIP_MASTER_SECRET**. Available platforms to send notification: ios, android, amazon, wns, mpns and blackberry.
+To use this tool you have to pass the application key an master secret by options or use two environment variables **URBAN_AIRSHIP_KEY** and **URBAN_AIRSHIP_MASTER_SECRET**. Available platforms to send notification: ios, android, amazon, wns, mpns and blackberry. Available audiences options: segment, android_channel, ios_channel and named_user.
 
 `usage: [options] [command]`
 
 #### Examples:
 - `urban-arship-cli broadcast "Message"`;
+- `urban-arship-cli broadcast "Message" -A "segment=<segment-id>"`;
+- `urban-arship-cli broadcast "Message" -A "android_channel=<channel-id>"`;
+- `urban-arship-cli broadcast "Message" -A "ios_channel=<channel-id>"`;
+- `urban-arship-cli broadcast "Message" -A "named_user=<named-user-id>"`;
 - `urban-arship-cli broadcast "Message" -P "<platform-name>, <platform-name>"`;
-- `urban-arship-cli broadcast "Message" -A "<segment=segment-id>"`;
-- `urban-arship-cli broadcast "Message" -A "<android_channel=channel-id>"`;
-- `urban-arship-cli broadcast "Message" -A "<ios_channel=channel-id>"`;
 - `urban-arship-cli broadcast "Message" -P "<platform-name>" -A "segment=<segment-id>"`;
 - `urban-arship-cli list channels`;
 - `urban-arship-cli list segments`;
