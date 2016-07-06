@@ -31,6 +31,10 @@ function loadAudience (audience_source) {
 			return {'android_channel': _validateAudienceValue(audience.value)};
 			break;
 
+		case 'ios_channel':
+			return {'ios_channel': _validateAudienceValue(audience.value)};
+			break;
+
 		case 'all':
 			return DEFAULT_AUDIENCE;
 			break;
