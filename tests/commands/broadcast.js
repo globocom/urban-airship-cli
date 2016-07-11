@@ -2,27 +2,13 @@ var assert = require('chai').assert;
 var sinon = require('sinon');
 
 var notificationService = require('../../services/notification');
-var broadcastCommand = require('../../commands/broadcast');
+var broadcastCommand = require('../../commands/push/broadcast');
 
 
 describe('commands/broadcast', function () {
-	describe('instruction', function () {
-		it('should have a instruction string', function () {
-			assert.typeOf(broadcastCommand.instruction, 'string');
-			assert.equal(broadcastCommand.instruction.length > 0, true);
-		});
-	});
-
-	describe('description', function () {
-		it('should have a description string', function () {
-			assert.typeOf(broadcastCommand.description, 'string');
-			assert.equal(broadcastCommand.description.length > 0, true);
-		});
-	});
-
 	describe('action', function () {
 		it('should have a action function', function () {
-			assert.typeOf(broadcastCommand.action, 'function');
+			assert.typeOf(broadcastCommand, 'function');
 		});
 
 		it('should create a broadcast notification', function () {
@@ -34,7 +20,7 @@ describe('commands/broadcast', function () {
 				'notification': {'alert': 'abc'},
 			};		
 		
-			broadcastCommand.action('abc', {});
+			broadcastCommand('abc', {});
 
 			payload = notificationSend.getCall(0).args[0];
 
@@ -55,7 +41,7 @@ describe('commands/broadcast', function () {
 			};
 			var options = { audience: 'segment=segment-id' };
 		
-			broadcastCommand.action('abc', options);
+			broadcastCommand('abc', options);
 
 			payload = notificationSend.getCall(0).args[0];
 
@@ -76,7 +62,7 @@ describe('commands/broadcast', function () {
 			};
 			var options = { platforms: 'ios' };
 		
-			broadcastCommand.action('abc', options);
+			broadcastCommand('abc', options);
 
 			payload = notificationSend.getCall(0).args[0];
 
@@ -91,7 +77,7 @@ describe('commands/broadcast', function () {
 			var callbackHandler = null;
 			var notificationSend = sinon.stub(notificationService, 'send');
 		
-			broadcastCommand.action('abc', {});
+			broadcastCommand('abc', {});
 
 			callbackHandler = notificationSend.getCall(0).args[3];
 
@@ -105,7 +91,7 @@ describe('commands/broadcast', function () {
 			var secret = null;
 			var notificationSend = sinon.stub(notificationService, 'send');
 		
-			broadcastCommand.action('abc', {});
+			broadcastCommand('abc', {});
 
 			key = notificationSend.getCall(0).args[1];
 			secret = notificationSend.getCall(0).args[2];
@@ -131,7 +117,7 @@ describe('commands/broadcast', function () {
 				} 
 			}
 
-			broadcastCommand.action('abc', options);
+			broadcastCommand('abc', options);
 
 			key = notificationSend.getCall(0).args[1];
 			secret = notificationSend.getCall(0).args[2];

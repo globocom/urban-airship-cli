@@ -3,14 +3,13 @@
 var program = require('commander');
 var arguments = process.argv;
 
-var broadcastCommand = require('./commands/broadcast');
-var actionUrlCommand = require('./commands/action-url');
+var pushCommand = require('./commands/push');
 var listCommand = require('./commands/list');
 
 var package = require('./package');
 
 
-var commands = [broadcastCommand, actionUrlCommand, listCommand];
+var commands = [pushCommand, listCommand];
 
 program
 	.version(package.version)

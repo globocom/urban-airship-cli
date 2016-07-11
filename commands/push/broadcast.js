@@ -1,6 +1,6 @@
-var audienceLib = require('../libraries/audience');
-var platformLib = require('../libraries/platform');
-var notificationService = require('../services/notification');
+var audienceLib = require('../../libraries/audience');
+var platformLib = require('../../libraries/platform');
+var notificationService = require('../../services/notification');
 
  
 function _actionHandler (error, request, body) {
@@ -26,16 +26,4 @@ function broadcast (message, options) {
 	}
 }
 
-module.exports = {
-	action: broadcast,
-	instruction: 'broadcast <message>',
-	description: 'send push notification to all application devices',
-	options: [{
-		instruction: '-P, --platforms <platforms>',
-		description: 'platforms to send notification - ios, android, amazon, wns, mpns and blackberry'
-	},{
-		instruction: '-A, --audience <audience>',
-		description: 'audience to send notification'
-	}],
-};
-	
+module.exports = broadcast;
