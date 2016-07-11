@@ -12,25 +12,23 @@ To use this tool you have to pass the application key an master secret by option
 `usage: [options] [command]`
 
 #### Examples:
-- `urban-arship-cli broadcast "Message"`;
-- `urban-arship-cli broadcast "Message" -A "segment=<segment-id>"`;
-- `urban-arship-cli broadcast "Message" -A "android_channel=<channel-id>"`;
-- `urban-arship-cli broadcast "Message" -A "ios_channel=<channel-id>"`;
-- `urban-arship-cli broadcast "Message" -A "named_user=<named-user-id>"`;
-- `urban-arship-cli broadcast "Message" -P "<platform-name>, <platform-name>"`;
-- `urban-arship-cli broadcast "Message" -P "<platform-name>" -A "segment=<segment-id>"`;
+- `urban-arship-cli push broadcast "Message"`;
+- `urban-arship-cli push broadcast "Message" -A "segment=<segment-id>"`;
+- `urban-arship-cli push broadcast "Message" -A "android_channel=<channel-id>"`;
+- `urban-arship-cli push broadcast "Message" -A "ios_channel=<channel-id>"`;
+- `urban-arship-cli push broadcast "Message" -A "named_user=<named-user-id>"`;
+- `urban-arship-cli push broadcast "Message" -P "<platform-name>, <platform-name>"`;
+- `urban-arship-cli push broadcast "Message" -P "<platform-name>" -A "segment=<segment-id>"`;
+- `urban-arship-cli push action_url "Message" https://www.urbanairship.com/`;
 - `urban-arship-cli list channels`;
 - `urban-arship-cli list segments`;
 - `urban-arship-cli list named_users`;
 
 #### Commands:
-- `broadcast <message>`: ***send push notification to all application devices***
+- `push <type> <message> [url]`: ***send push notification***
+	- **type** : push notification type: broadcast or action_url;
 	- **message** : push notification message;
-	- **-A, --audience** (optional) - audience from urban airship to send notification, default: "all";
-	- **-P, --platforms** (optional) - specify platforms to send notification, default: "ios, android";
-- `action-url <message> <url>`:  ***send notification action to open a url***
-	- **message** : push notification message
-	- **url** : url to be opened 
+	- **url** : url to be opened;
 	- **-A, --audience** (optional) - audience from urban airship to send notification, default: "all";
 	- **-P, --platforms** (optional) - specify platforms to send notification, default: "ios, android";
 - `list <type>`: ***list all application: channels, segments or named_users***

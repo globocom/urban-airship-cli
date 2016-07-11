@@ -2,27 +2,13 @@ var assert = require('chai').assert;
 var sinon = require('sinon');
 
 var notificationService = require('../../services/notification');
-var actionUrlCommand = require('../../commands/action-url');
+var actionUrlCommand = require('../../commands/push/action-url');
 
 
 describe('commands/action-url', function () {
-	describe('instruction', function () {
-		it('should have a instruction string', function () {
-			assert.typeOf(actionUrlCommand.instruction, 'string');
-			assert.equal(actionUrlCommand.instruction.length > 0, true);
-		});
-	});
-
-	describe('description', function () {
-		it('should have a description string', function () {
-			assert.typeOf(actionUrlCommand.description, 'string');
-			assert.equal(actionUrlCommand.description.length > 0, true);
-		});
-	});
-
 	describe('action', function () {
 		it('should have a action function', function () {
-			assert.typeOf(actionUrlCommand.action, 'function');
+			assert.typeOf(actionUrlCommand, 'function');
 		});
 
 		it('should create a url action notification', function () {
@@ -42,7 +28,7 @@ describe('commands/action-url', function () {
 				},
 			};		
 
-			actionUrlCommand.action('abc', 'url', {});
+			actionUrlCommand('abc', 'url', {});
 
 			payload = notificationSend.getCall(0).args[0];
 
@@ -76,7 +62,7 @@ describe('commands/action-url', function () {
 			};	
 			var options = { audience: 'segment=segment-id' };
 		
-			actionUrlCommand.action('abc', 'url', options);
+			actionUrlCommand('abc', 'url', options);
 
 			payload = notificationSend.getCall(0).args[0];
 
@@ -110,7 +96,7 @@ describe('commands/action-url', function () {
 			};
 			var options = { platforms: 'android' };
 		
-			actionUrlCommand.action('abc', 'url', options);
+			actionUrlCommand('abc', 'url', options);
 
 			payload = notificationSend.getCall(0).args[0];
 
@@ -131,7 +117,7 @@ describe('commands/action-url', function () {
 			var secret = null;
 			var notificationSend = sinon.stub(notificationService, 'send');
 		
-			actionUrlCommand.action('abc', 'url', {});
+			actionUrlCommand('abc', 'url', {});
 
 			key = notificationSend.getCall(0).args[1];
 			secret = notificationSend.getCall(0).args[2];
@@ -156,7 +142,7 @@ describe('commands/action-url', function () {
 				} 
 			};
 
-			actionUrlCommand.action('abc', 'url', options);
+			actionUrlCommand('abc', 'url', options);
 
 			key = notificationSend.getCall(0).args[1];
 			secret = notificationSend.getCall(0).args[2];
