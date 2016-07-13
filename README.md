@@ -28,7 +28,7 @@ To use this tool you have to pass the application key an master secret by option
 - `push <type> <message> [url]`: ***send push notification***
 	- **type** : push notification type: broadcast or action_url;
 	- **message** : push notification message;
-	- **url** : url to be opened;
+	- **url** : url to be opened, must be passed when type action_url is used;
 	- **-A, --audience** (optional) - audience from urban airship to send notification, default: "all";
 	- **-P, --platforms** (optional) - specify platforms to send notification, default: "ios, android";
 - `list <type>`: ***list all application: channels, segments or named_users***
