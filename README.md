@@ -12,17 +12,17 @@ To use this tool you have to pass the application key an master secret by option
 `usage: [options] [command]`
 
 #### Examples:
-- `urban-arship-cli push broadcast "Message"`;
-- `urban-arship-cli push broadcast "Message" -A "segment=<segment-id>"`;
-- `urban-arship-cli push broadcast "Message" -A "android_channel=<channel-id>"`;
-- `urban-arship-cli push broadcast "Message" -A "ios_channel=<channel-id>"`;
-- `urban-arship-cli push broadcast "Message" -A "named_user=<named-user-id>"`;
-- `urban-arship-cli push broadcast "Message" -P "<platform-name>, <platform-name>"`;
-- `urban-arship-cli push broadcast "Message" -P "<platform-name>" -A "segment=<segment-id>"`;
-- `urban-arship-cli push action_url "Message" https://www.urbanairship.com/`;
-- `urban-arship-cli list channels`;
-- `urban-arship-cli list segments`;
-- `urban-arship-cli list named_users`;
+- `urban-airship-cli push broadcast "Message"`;
+- `urban-airship-cli push broadcast "Message" -A "segment=<segment-id>"`;
+- `urban-airship-cli push broadcast "Message" -A "android_channel=<channel-id>"`;
+- `urban-airship-cli push broadcast "Message" -A "ios_channel=<channel-id>"`;
+- `urban-airship-cli push broadcast "Message" -A "named_user=<named-user-id>"`;
+- `urban-airship-cli push broadcast "Message" -P "<platform-name>, <platform-name>"`;
+- `urban-airship-cli push broadcast "Message" -P "<platform-name>" -A "segment=<segment-id>"`;
+- `urban-airship-cli push action_url "Message" https://www.urbanairship.com/`;
+- `urban-airship-cli list channels`;
+- `urban-airship-cli list segments`;
+- `urban-airship-cli list named_users`;
 
 #### Commands:
 - `push <type> <message> [url]`: ***send push notification***
