@@ -2,12 +2,14 @@ var listService = require('../../services/list');
 var listChannelsHandler = require('./channels');
 var listSegmentsHandler = require('./segments');
 var listNamedUsersHandler = require('./named-users');
+var listTagsHandler = require('./tags');
 
 
 var LIST_TYPES = {
 	channels: listChannelsHandler,
 	segments: listSegmentsHandler,
 	named_users: listNamedUsersHandler,
+	tags: listTagsHandler,
 };
 
 function _getListTypeHandler (type) {

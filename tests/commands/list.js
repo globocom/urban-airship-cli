@@ -76,6 +76,23 @@ describe('commands/list', function () {
 			listGet.restore();
 		});
 
+		it('should create request to list tags correctly', function () {
+			var type = null;
+			var tagsHandler = null
+			var expectedType = 'tags'
+			var listGet = sinon.stub(listService, 'get');
+
+			listCommand.action('tags', {});
+
+			type = listGet.getCall(0).args[0];
+			tagsHandler = listGet.getCall(0).args[3];
+
+			assert.equal(type, expectedType);
+			assert.equal(tagsHandler.name, 'tagsActionHandler');
+
+			listGet.restore();
+		});
+
 		it('should throw error if unsuported type passed', function () {
 			assert.throws(function () {
 				listCommand.action('unsuported', {});

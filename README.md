@@ -23,6 +23,7 @@ To use this tool you have to pass the application key an master secret by option
 - `urban-airship-cli list channels`;
 - `urban-airship-cli list segments`;
 - `urban-airship-cli list named_users`;
+- `urban-airship-cli list tags`;
 
 #### Commands:
 - `push <type> <message> [url]`: ***send push notification***
@@ -31,8 +32,8 @@ To use this tool you have to pass the application key an master secret by option
 	- **url** : url to be opened, must be passed when type action_url is used;
 	- **-A, --audience** (optional) - audience from urban airship to send notification, default: "all";
 	- **-P, --platforms** (optional) - specify platforms to send notification, default: "ios, android";
-- `list <type>`: ***list all application: channels, segments or named_users***
-	- **type** : type of the list: channels, segments or named_users
+- `list <type>`: ***list all application: channels, segments, named_users or tags***
+	- **type** : type of the list: channels, segments, named_users or tags
 
 #### Options:
 - `-h`, `--help`        output usage information
